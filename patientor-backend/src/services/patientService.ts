@@ -1,16 +1,27 @@
 import patientData from '../../data/patients';
-import { PatientEntry } from '../types';
+import { PatientEntry, NonSensitivePatientEntry } from '../types';
 
 const patients: Array<PatientEntry> = patientData;
-const getDiagnoses = (): Array<patientData> => {
+const getPatients = (): PatientEntry[] => {
   return patients;
 };
 
-const addDiagnose = () => {
-  return null;
+const getNonSensitiveEntries = (): NonSensitivePatientEntry[] => {
+  return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
+    id,
+    name,
+    dateOfBirth,
+    gender,
+    occupation,
+  }));
+};
+
+const addPatient = () => {
+  return [];
 };
 
 export default {
-  getDiagnoses,
-  addDiagnose,
+  getPatients,
+  getNonSensitiveEntries,
+  addPatient,
 };

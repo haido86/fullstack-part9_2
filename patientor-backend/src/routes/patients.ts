@@ -1,10 +1,10 @@
 import express from 'express';
-import PatientEntries from '../../data/patients';
+import patientService from '../services/patientService';
 
 const router = express.Router();
 
 router.get('/', (_req, res) => {
-  res.json(PatientEntries);
+  res.send(patientService.getNonSensitiveEntries());
 });
 
 router.post('/', (_req, res) => {

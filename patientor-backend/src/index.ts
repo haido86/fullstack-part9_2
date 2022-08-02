@@ -5,7 +5,7 @@ import patientRouter from './routes/patients';
 
 const app = express();
 
-const allowedOrigins = ['http://localhost:3001'];
+const allowedOrigins = ['http://localhost:3001', 'http://localhost:3000'];
 
 const options: cors.CorsOptions = {
   origin: allowedOrigins,
