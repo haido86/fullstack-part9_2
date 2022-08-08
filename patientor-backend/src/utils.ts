@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Gender, NewPatientEntry } from './types';
 
-const isString = (text: unknown): text is string => {
+export const isString = (text: unknown): text is string => {
   return typeof text === 'string' || text instanceof String;
 };
 
@@ -54,12 +55,21 @@ const parseOccupation = (occupation: unknown): string => {
   return occupation;
 };
 
+const parseEntries = (entries: string[]) => {
+  if (!entries || !Array.isArray(entries)) {
+    throw new Error('Incorrect or missing entries: ' + entries);
+  }
+
+  return entries;
+};
+
 type Fields = {
   name: unknown;
   dateOfBirth: unknown;
   ssn: unknown;
   gender: unknown;
   occupation: unknown;
+  entries: string[];
 };
 
 const toNewPatientEntry = ({
@@ -68,6 +78,7 @@ const toNewPatientEntry = ({
   ssn,
   gender,
   occupation,
+  entries,
 }: Fields): NewPatientEntry => {
   const newEntry: NewPatientEntry = {
     name: parseName(name),
@@ -75,6 +86,7 @@ const toNewPatientEntry = ({
     ssn: parseSsn(ssn),
     gender: parseGender(gender),
     occupation: parseOccupation(occupation),
+    entries: parseEntries(entries),
   };
   return newEntry;
 };
