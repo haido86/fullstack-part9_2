@@ -9,6 +9,7 @@ import { Patient } from "./types";
 
 import PatientListPage from "./PatientListPage";
 import { Typography } from "@material-ui/core";
+import PatientInfo from "./PatientListPage/PatientInfo";
 
 const App = () => {
   const [, dispatch] = useStateValue();
@@ -20,6 +21,7 @@ const App = () => {
         const { data: patientListFromApi } = await axios.get<Patient[]>(
           `${apiBaseUrl}/patients`
         );
+
         dispatch({ type: "SET_PATIENT_LIST", payload: patientListFromApi });
       } catch (e) {
         console.error(e);
@@ -41,6 +43,7 @@ const App = () => {
           <Divider hidden />
           <Routes>
             <Route path="/" element={<PatientListPage />} />
+            <Route path="/:id" element={<PatientInfo />} />
           </Routes>
         </Container>
       </Router>
