@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { Gender, NewPatientEntry } from './types';
+import { Entry, Gender, NewPatientEntry } from './types';
 
 export const isString = (text: unknown): text is string => {
   return typeof text === 'string' || text instanceof String;
@@ -55,7 +55,7 @@ const parseOccupation = (occupation: unknown): string => {
   return occupation;
 };
 
-const parseEntries = (entries: string[]) => {
+const parseEntries = (entries: Entry[]) => {
   if (!entries || !Array.isArray(entries)) {
     throw new Error('Incorrect or missing entries: ' + entries);
   }
@@ -69,7 +69,7 @@ type Fields = {
   ssn: unknown;
   gender: unknown;
   occupation: unknown;
-  entries: string[];
+  entries: Entry[];
 };
 
 const toNewPatientEntry = ({
