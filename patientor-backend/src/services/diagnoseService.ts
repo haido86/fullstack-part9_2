@@ -1,8 +1,8 @@
 import diagnoseData from '../../data/diagnoses';
-import { DiagnoseEntry } from '../types';
+import { Diagnosis } from '../types';
 
-const diagnoses: Array<DiagnoseEntry> = diagnoseData;
-const getDiagnoses = (): Array<DiagnoseEntry> => {
+const diagnoses: Array<Diagnosis> = diagnoseData;
+const getDiagnoses = (): Array<Diagnosis> => {
   return diagnoses;
 };
 

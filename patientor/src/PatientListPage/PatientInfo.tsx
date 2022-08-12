@@ -3,6 +3,7 @@ import { useStateValue } from "../state";
 import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import { Entry } from "../types";
+import DiagnoseInfo from "../components/DiagnoseInfo";
 
 
 const PatientInfo = () => {
@@ -45,7 +46,8 @@ const PatientInfo = () => {
                             <em>{entry.description}</em>
                         </div>
                         <ul>
-                            {entry.diagnosisCodes?.map((diagnosisCode, index) => <li key={index}>{diagnosisCode}</li>)}
+                            {entry.diagnosisCodes?.map((diagnosisCode, index) =>
+                                <li key={index}>{diagnosisCode}{' '}{<DiagnoseInfo code={diagnosisCode} />}</li>)}
                         </ul>
                     </div>
                 );
