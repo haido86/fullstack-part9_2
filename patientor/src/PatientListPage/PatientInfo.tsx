@@ -4,6 +4,7 @@ import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import { Entry } from "../types";
 
+
 const PatientInfo = () => {
     const [{ patients },] = useStateValue();
     const allPatient = Object.values(patients);
@@ -33,19 +34,23 @@ const PatientInfo = () => {
 
             <p> ssn: {detailedPatient?.ssn}</p>
             <p> occupation: {detailedPatient?.occupation}</p>
-            <h3>Entries</h3>
+            <br />
+            {detailedPatient && detailedPatient.entries && (<h3>Entries</h3>)}
 
             {detailedPatient?.entries?.map((entry: Entry, index) => {
-
                 return (
-                    <>
-                        {entry.date} {''}
-                        <em key={index}>{entry.description}</em>
-                        <br />
-                        {entry.diagnosisCodes?.map((diagnosisCode) => <li key={diagnosisCode.toString()}>{diagnosisCode}</li>)}
-                    </>
+                    <div key={index}>
+                        <div>
+                            {entry.date} {''}
+                            <em>{entry.description}</em>
+                        </div>
+                        <ul>
+                            {entry.diagnosisCodes?.map((diagnosisCode, index) => <li key={index}>{diagnosisCode}</li>)}
+                        </ul>
+                    </div>
                 );
-            })
+            }
+            )
             }
         </>
     );
