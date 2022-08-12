@@ -35,7 +35,7 @@ const PatientInfo = () => {
             <p> ssn: {detailedPatient?.ssn}</p>
             <p> occupation: {detailedPatient?.occupation}</p>
             <br />
-            {detailedPatient && detailedPatient.entries && (<h3>Entries</h3>)}
+            {detailedPatient && detailedPatient.entries && detailedPatient.entries.length > 0 && (<h3>Entries</h3>)}
 
             {detailedPatient?.entries?.map((entry: Entry, index) => {
                 return (
