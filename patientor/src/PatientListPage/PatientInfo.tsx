@@ -4,6 +4,16 @@ import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import { Entry } from "../types";
 import DiagnoseInfo from "../components/DiagnoseInfo";
+import EntryDetails from "../components/EntryDetails";
+import { Box, Button, Grid, Paper, styled } from "@material-ui/core";
+
+const Item = styled(Paper)(({ theme }) => ({
+    // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'left',
+    color: theme.palette.text.primary,
+}));
 
 
 const PatientInfo = () => {
@@ -31,6 +41,7 @@ const PatientInfo = () => {
 
     return (
         <>
+
             <h2> {detailedPatient?.name} {getGender()}</h2>
 
             <p> ssn: {detailedPatient?.ssn}</p>
@@ -40,20 +51,28 @@ const PatientInfo = () => {
 
             {detailedPatient?.entries?.map((entry: Entry, index) => {
                 return (
-                    <div key={index}>
-                        <div>
-                            {entry.date} {''}
-                            <em>{entry.description}</em>
-                        </div>
-                        <ul>
-                            {entry.diagnosisCodes?.map((diagnosisCode, index) =>
-                                <li key={index}>{diagnosisCode}{' '}{<DiagnoseInfo code={diagnosisCode} />}</li>)}
-                        </ul>
-                    </div>
+                    <Box sx={{ width: '100%' }} style={{ padding: 6 }} key={index}>
+                        <Grid>
+                            <Item>
+                                <div>{entry.date} {<EntryDetails entry={entry} />}</div>
+                                <div><em>{entry.description}</em></div>
+
+                                <ul>{entry.diagnosisCodes?.map((diagnosisCode, index) =>
+                                    <li key={index}>{diagnosisCode}{' '}{<DiagnoseInfo code={diagnosisCode} />}</li>)}
+                                </ul>
+
+                                <div> diagnosed by {entry.specialist}</div>
+                            </Item>
+                        </Grid>
+                    </Box>
                 );
             }
             )
             }
+            <Button variant="contained" color="primary" style={{ margin: 20 }}>
+                Add New Entry
+            </Button>
+
         </>
     );
 
