@@ -8,7 +8,7 @@ const DiagnoseInfo = ({ code }: { code: string }) => {
 
     return (
         <>
-            {filterDiagnose?.name}
+            {code} {filterDiagnose?.name}
         </>
     );
 };

@@ -8,7 +8,6 @@ import EntryDetails from "../components/EntryDetails";
 import { Box, Button, Grid, Paper, styled } from "@material-ui/core";
 
 const Item = styled(Paper)(({ theme }) => ({
-    // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: 'left',
@@ -54,11 +53,10 @@ const PatientInfo = () => {
                     <Box sx={{ width: '100%' }} style={{ padding: 6 }} key={index}>
                         <Grid>
                             <Item>
-                                <div>{entry.date} {<EntryDetails entry={entry} />}</div>
-                                <div><em>{entry.description}</em></div>
+                                {<EntryDetails entry={entry} />}
 
                                 <ul>{entry.diagnosisCodes?.map((diagnosisCode, index) =>
-                                    <li key={index}>{diagnosisCode}{' '}{<DiagnoseInfo code={diagnosisCode} />}</li>)}
+                                    <li key={index}>{<DiagnoseInfo code={diagnosisCode} />}</li>)}
                                 </ul>
 
                                 <div> diagnosed by {entry.specialist}</div>
