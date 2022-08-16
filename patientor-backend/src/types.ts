@@ -41,13 +41,20 @@ interface Discharge {
 
 export interface HospitalEntry extends BaseEntry {
   type: 'Hospital';
-  discharge: Discharge;
+  discharge?: Discharge;
 }
 
 export type Entry =
   | HealthCheckEntry
   | OccupationalHealthcareEntry
   | HospitalEntry;
+
+// Define special omit for unions
+type UnionOmit<T, K extends string | number | symbol> = T extends unknown
+  ? Omit<T, K>
+  : never;
+// Define Entry without the 'id' property
+export type EntryWithoutId = UnionOmit<Entry, 'id'>;
 
 export interface Patient {
   id: string;
@@ -59,7 +66,7 @@ export interface Patient {
   entries?: Entry[];
 }
 
-export type NewPatientEntry = Omit<Patient, 'id'>;
+export type NewPatient = Omit<Patient, 'id' | 'entries'>;
 
 export enum Gender {
   Male = 'male',

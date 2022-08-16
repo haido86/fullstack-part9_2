@@ -1,5 +1,5 @@
 import patientData from '../../data/patients';
-import { Patient, NewPatientEntry, PublicPatient } from '../types';
+import { Patient, NewPatient, PublicPatient, EntryWithoutId } from '../types';
 import { v1 as uuid } from 'uuid';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
@@ -25,14 +25,28 @@ const getPatientById = (id: string): Patient | undefined => {
   return foundPatient;
 };
 
-const addPatient = (entry: NewPatientEntry): Patient => {
+const addPatient = (patient: NewPatient): Patient => {
   const newPatientEntry = {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     id: id,
-    ...entry,
+    ...patient,
   };
   patients.push(newPatientEntry);
   return newPatientEntry;
+};
+
+const addEntry = (patientId: string, entry: EntryWithoutId) => {
+  const newEntry = { id: id, ...entry };
+  patients.map((patient) =>
+    patient.id === patientId
+      ? {
+          ...patient,
+          entries: patient.entries
+            ? patient.entries.push(newEntry)
+            : [newEntry],
+        }
+      : patient
+  );
 };
 
 export default {
@@ -40,4 +54,5 @@ export default {
   getNonSensitiveEntries,
   getPatientById,
   addPatient,
+  addEntry,
 };
