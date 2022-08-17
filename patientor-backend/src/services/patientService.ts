@@ -47,6 +47,7 @@ const addEntry = (patientId: string, entry: EntryWithoutId) => {
         }
       : patient
   );
+  return newEntry;
 };
 
 export default {

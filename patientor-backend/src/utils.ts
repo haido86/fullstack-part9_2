@@ -80,7 +80,7 @@ export const toNewPatientEntry = ({
 
 const parseDescription = (description: unknown): string => {
   if (!description || !isString(description)) {
-    throw new Error('Incorrect or missing ssn: ' + description);
+    throw new Error('Incorrect or missing description: ' + description);
   }
 
   return description;
@@ -95,20 +95,31 @@ const parseDate = (date: unknown): string => {
 
 const parseSpecialist = (specialist: unknown): string => {
   if (!specialist || !isString(specialist)) {
-    throw new Error('Incorrect or missing ssn: ' + specialist);
+    throw new Error('Incorrect or missing specialist: ' + specialist);
   }
 
   return specialist;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isHealthCheckRating = (param: any): param is HealthCheckRating => {
+  console.log('param', param);
+
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return Object.values(HealthCheckRating).includes(param);
 };
 
 const parseHealthCheckRating = (healthCheckRating: unknown): number => {
-  if (!healthCheckRating || !isHealthCheckRating(healthCheckRating)) {
-    throw new Error('Incorrect or missing gender: ' + healthCheckRating);
+  console.log('healthCheckRating', healthCheckRating);
+
+  if (
+    healthCheckRating === null ||
+    healthCheckRating === undefined ||
+    !isHealthCheckRating(healthCheckRating)
+  ) {
+    throw new Error(
+      'Incorrect or missing healthCheckRating: ' + healthCheckRating
+    );
   }
 
   return healthCheckRating;
@@ -116,7 +127,7 @@ const parseHealthCheckRating = (healthCheckRating: unknown): number => {
 
 const parseEmployerName = (employerName: unknown): string => {
   if (!employerName || !isString(employerName)) {
-    throw new Error('Incorrect or missing ssn: ' + employerName);
+    throw new Error('Incorrect or missing employerName: ' + employerName);
   }
 
   return employerName;

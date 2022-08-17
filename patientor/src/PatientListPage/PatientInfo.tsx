@@ -1,11 +1,16 @@
 import { useParams } from "react-router-dom";
-import { useStateValue } from "../state";
+import { addEntry, useStateValue } from "../state";
 import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
-import { Entry } from "../types";
+import { Entry, HealthCheckEntry } from "../types";
 import DiagnoseInfo from "../components/DiagnoseInfo";
 import EntryDetails from "../components/EntryDetails";
 import { Box, Button, Grid, Paper, styled } from "@material-ui/core";
+import axios from "axios";
+import React from "react";
+import { EntryFormValues } from "../AddPatientModal/AddEntryForm";
+import { apiBaseUrl } from "../constants";
+import { AddEntryModal } from "../AddPatientModal";
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -16,12 +21,22 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 const PatientInfo = () => {
-    const [{ patients },] = useStateValue();
+    const [{ patients }, dispatch] = useStateValue();
     const allPatient = Object.values(patients);
 
     const { id } = useParams<{ id: string }>();
 
     const detailedPatient = allPatient.find(p => p.id === id);
+
+    const [modalOpen, setModalOpen] = React.useState<boolean>(false);
+    const [error, setError] = React.useState<string>();
+
+    const openModal = (): void => setModalOpen(true);
+
+    const closeModal = (): void => {
+        setModalOpen(false);
+        setError(undefined);
+    };
 
     const getGender = () => {
         if (detailedPatient?.gender === "male") {
@@ -37,6 +52,37 @@ const PatientInfo = () => {
 
     console.log('detailedPatient', detailedPatient);
     console.log('entries', detailedPatient?.entries);
+
+    const submitNewEntry = async (values: EntryFormValues) => {
+        try {
+            if (id) {
+                const { data: newEntry } = await axios.post<HealthCheckEntry>(
+                    `${apiBaseUrl}/patients/${id}/entries`,
+                    values
+                );
+
+                console.log('newEntry', newEntry);
+
+
+                if (detailedPatient) {
+                    dispatch(addEntry(detailedPatient, newEntry));
+                    console.log('detailedPatient', detailedPatient);
+
+                    console.log('newEntry', newEntry);
+
+                }
+                closeModal();
+            }
+        } catch (e: unknown) {
+            if (axios.isAxiosError(e)) {
+                console.error(e?.response?.data || "Unrecognized axios error");
+                setError(String(e?.response?.data?.error) || "Unrecognized axios error");
+            } else {
+                console.error("Unknown error", e);
+                setError("Unknown error");
+            }
+        }
+    };
 
     return (
         <>
@@ -67,7 +113,18 @@ const PatientInfo = () => {
             }
             )
             }
-            <Button variant="contained" color="primary" style={{ margin: 20 }}>
+
+            <AddEntryModal
+                modalOpen={modalOpen}
+                onSubmit={submitNewEntry}
+                error={error}
+                onClose={closeModal}
+            />
+
+            <Button variant="contained"
+                color="primary"
+                style={{ margin: 20 }}
+                onClick={() => openModal()}>
                 Add New Entry
             </Button>
 
