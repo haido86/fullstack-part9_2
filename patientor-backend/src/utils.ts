@@ -100,6 +100,14 @@ const parseSpecialist = (specialist: unknown): string => {
 
   return specialist;
 };
+const parseDiagnosisCodes = (diagnosisCodes: unknown): Array<string> => {
+  if (!diagnosisCodes || !Array.isArray(diagnosisCodes)) {
+    throw new Error('Incorrect or missing diagnosisCodes: ' + diagnosisCodes);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return diagnosisCodes;
+};
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isHealthCheckRating = (param: any): param is HealthCheckRating => {
@@ -140,11 +148,18 @@ type InputEntryFields = {
   specialist: unknown;
   healthCheckRating: unknown;
   employerName: unknown;
+  diagnosisCodes: unknown;
 };
 
 export const toNewEntry = (entry: InputEntryFields): EntryWithoutId | Error => {
-  const { description, date, specialist, healthCheckRating, employerName } =
-    entry;
+  const {
+    description,
+    date,
+    specialist,
+    healthCheckRating,
+    employerName,
+    diagnosisCodes,
+  } = entry;
 
   switch (entry.type) {
     case 'HealthCheck':
@@ -154,6 +169,7 @@ export const toNewEntry = (entry: InputEntryFields): EntryWithoutId | Error => {
         date: parseDate(date),
         specialist: parseSpecialist(specialist),
         healthCheckRating: parseHealthCheckRating(healthCheckRating),
+        diagnosisCodes: parseDiagnosisCodes(diagnosisCodes),
       };
     case 'OccupationalHealthcare':
       return {
@@ -162,6 +178,7 @@ export const toNewEntry = (entry: InputEntryFields): EntryWithoutId | Error => {
         date: parseDate(date),
         specialist: parseSpecialist(specialist),
         employerName: parseEmployerName(employerName),
+        diagnosisCodes: parseDiagnosisCodes(diagnosisCodes),
       };
     case 'Hospital':
       return {
@@ -169,6 +186,7 @@ export const toNewEntry = (entry: InputEntryFields): EntryWithoutId | Error => {
         description: parseDescription(description),
         date: parseDate(date),
         specialist: parseSpecialist(specialist),
+        diagnosisCodes: parseDiagnosisCodes(diagnosisCodes),
       };
     default:
       return {

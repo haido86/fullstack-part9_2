@@ -2,8 +2,9 @@ import React from "react";
 import { Grid, Button } from "@material-ui/core";
 import { Field, Formik, Form } from "formik";
 
-import { TextField, SelectField } from "./FormField";
+import { TextField, SelectField, DiagnosisSelection } from "./FormField";
 import { HealthCheckEntry, HealthCheckRating } from "../types";
+import { useStateValue } from "../state";
 
 export type HealthCheckRatingOption = {
     value: HealthCheckRating;
@@ -25,13 +26,15 @@ const healthCheckRatingOptions: HealthCheckRatingOption[] = [
 ];
 
 export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
+    const [{ diagnoses }] = useStateValue();
+
     return (
         <Formik
             initialValues={{
                 description: "",
                 date: "",
                 specialist: "",
-                diagnosisCodes: [],
+
                 type: 'HealthCheck',
                 healthCheckRating: HealthCheckRating['Healthy']
             }}
@@ -51,7 +54,7 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                 return errors;
             }}
         >
-            {({ isValid, dirty }) => {
+            {({ isValid, dirty, setFieldValue, setFieldTouched }) => {
                 return (
                     <Form className="form ui">
                         <Field
@@ -78,6 +81,10 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
                             name="date"
                             component={TextField}
                         />
+                        <DiagnosisSelection
+                            setFieldValue={setFieldValue}
+                            setFieldTouched={setFieldTouched}
+                            diagnoses={Object.values(diagnoses)} />
 
                         <SelectField label="HealthCheckRating" name="healthCheckRating" options={healthCheckRatingOptions} />
                         <Grid>
