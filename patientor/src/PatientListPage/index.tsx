@@ -36,8 +36,10 @@ const PatientListPage = () => {
       closeModal();
     } catch (e: unknown) {
       if (axios.isAxiosError(e)) {
-        console.error(e?.response?.data || "Unrecognized axios error");
-        setError(String(e?.response?.data?.error) || "Unrecognized axios error");
+        if (e) {
+          console.log("err:", e.response?.data || "Unrecognized axios error");
+          setError(String(e.response?.data) || "Unrecognized axios error");
+        }
       } else {
         console.error("Unknown error", e);
         setError("Unknown error");
@@ -45,10 +47,9 @@ const PatientListPage = () => {
     }
   };
 
-
-
   return (
     <div className="App">
+      {/* <DisplayError errorMessage={error} /> */}
       <Box>
         <Typography align="center" variant="h6">
           Patient list
