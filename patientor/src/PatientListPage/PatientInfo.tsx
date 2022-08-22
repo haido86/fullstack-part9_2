@@ -8,9 +8,10 @@ import EntryDetails from "../components/EntryDetails";
 import { Box, Button, Grid, Paper, styled } from "@material-ui/core";
 import axios from "axios";
 import React from "react";
-import { EntryFormValues } from "../AddPatientModal/AddEntryForm";
+// import { EntryFormValues } from "../AddPatientModal/AddEntryForm";
 import { apiBaseUrl } from "../constants";
 import { AddEntryModal } from "../AddPatientModal";
+import { EntryFormValues } from "../AddPatientModal/AddEntryForm";
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -50,9 +51,6 @@ const PatientInfo = () => {
         }
     };
 
-    console.log('detailedPatient', detailedPatient);
-    console.log('entries', detailedPatient?.entries);
-
     const submitNewEntry = async (values: EntryFormValues) => {
         try {
             if (id) {
@@ -61,15 +59,8 @@ const PatientInfo = () => {
                     values
                 );
 
-                console.log('newEntry', newEntry);
-
-
                 if (detailedPatient) {
                     dispatch(addEntry(detailedPatient, newEntry));
-                    console.log('detailedPatient', detailedPatient);
-
-                    console.log('newEntry', newEntry);
-
                 }
                 closeModal();
             }

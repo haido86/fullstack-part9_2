@@ -76,7 +76,6 @@ export const reducer = (state: State, action: Action): State => {
         },
       };
     case 'ADD_ENTRY':
-      console.log('action.payload', action.payload);
       const { patient, entry } = action.payload;
 
       patient.entries.push(entry);

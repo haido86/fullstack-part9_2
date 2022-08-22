@@ -111,15 +111,11 @@ const parseDiagnosisCodes = (diagnosisCodes: unknown): Array<string> => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isHealthCheckRating = (param: any): param is HealthCheckRating => {
-  console.log('param', param);
-
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return Object.values(HealthCheckRating).includes(param);
 };
 
 const parseHealthCheckRating = (healthCheckRating: unknown): number => {
-  console.log('healthCheckRating', healthCheckRating);
-
   if (
     healthCheckRating === null ||
     healthCheckRating === undefined ||

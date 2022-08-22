@@ -25,7 +25,7 @@ const healthCheckRatingOptions: HealthCheckRatingOption[] = [
     { value: HealthCheckRating['CriticalRisk'], label: 'CriticalRisk' },
 ];
 
-export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
+const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
     const [{ diagnoses }] = useStateValue();
 
     return (
